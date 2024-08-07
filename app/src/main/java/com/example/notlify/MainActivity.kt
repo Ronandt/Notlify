@@ -20,6 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -43,6 +45,13 @@ class MainActivity : ComponentActivity() {
 // Remember that you should never show the action bar if the
 // status bar is hidden, so hide that too if necessary.
         actionBar?.hide()
+        val controller = WindowInsetsControllerCompat(
+            window, window.decorView
+        )
+
+        controller.hide(WindowInsetsCompat.Type.systemBars())
+        controller.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         setContent {
             NotlifyTheme {
                 val navController = rememberNavController()
