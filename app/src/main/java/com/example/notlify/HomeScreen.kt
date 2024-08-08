@@ -68,6 +68,7 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
     val context = LocalContext.current
     val getDatabase = remember {AppDatabase.getDb(context)}
 
+
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Black)) {
@@ -88,8 +89,13 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
 
                     }
                     Button(contentPadding = PaddingValues(horizontal = 14.dp    ),onClick = {
+                        scope.launch {
+                           val returnedId =  getDatabase.noteDao().insertNote(Note("Empty Note", "Welcome", System.currentTimeMillis().toString()))
+                            navController.navigate("note/${returnedId}")
 
-                        navController.navigate("note") }, colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue), shape = RoundedCornerShape(10.dp    )) {
+
+                        }
+                      }, colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue), shape = RoundedCornerShape(10.dp    )) {
                         Text(text = "+ New", color = Black, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp ))
 
                     }

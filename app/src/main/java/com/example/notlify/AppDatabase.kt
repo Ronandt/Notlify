@@ -43,6 +43,7 @@ data class Note(
 data class NoteItem(
     val parentNoteId: Int,
     val parentNoteItem: Int? = null,
+    val image: String,
     val itemType: String,
     val description: String,
     val indentationCount: Int = 0,

@@ -1,6 +1,5 @@
 package com.example.notlify
 
-import android.hardware.lights.Light
 import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -23,8 +21,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
@@ -33,7 +29,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -44,7 +39,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -53,6 +47,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -72,8 +67,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.notlify.ui.theme.Black
-import com.example.notlify.ui.theme.Blue
-import com.example.notlify.ui.theme.DarkGray
 import com.example.notlify.ui.theme.DrawerGray
 import com.example.notlify.ui.theme.LightBlue
 import com.example.notlify.ui.theme.LightGray
@@ -112,6 +105,9 @@ class MainActivity : ComponentActivity() {
                 var searchState by remember {mutableStateOf("")}
                 val navigationState = rememberDrawerState(initialValue = DrawerValue.Closed   )
                 val scope = rememberCoroutineScope()
+                LaunchedEffect(Unit) {//preload
+
+                }
                 ModalBottomSheetLayout(sheetState = bottomSheet,sheetContent = {
                     Column() {
                         Box (modifier = Modifier
@@ -274,8 +270,8 @@ class MainActivity : ComponentActivity() {
                                     composable("settings") {
                                         SettingsScreen(navController)
                                     }
-                                    composable("note") {
-                                        NoteScreen(navController)
+                                    composable("note/{id}") {
+                                        NoteScreen(navController, id = it.arguments?.getString("id")?.toInt())
                                     }
                                     composable("gallery") {
                                         GalleryScreen(navController, drawerState = navigationState)
