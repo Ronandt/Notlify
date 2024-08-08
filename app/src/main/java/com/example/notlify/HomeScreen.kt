@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,9 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
     var tabs = remember {
         listOf("All Notes", "Recents", "Favorites", "Unfiled")
     }
+    val context = LocalContext.current
+    val getDatabase = remember {AppDatabase.getDb(context)}
+
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Black)) {
@@ -83,7 +87,9 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
 
 
                     }
-                    Button(contentPadding = PaddingValues(horizontal = 14.dp    ),onClick = { navController.navigate("note") }, colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue), shape = RoundedCornerShape(10.dp    )) {
+                    Button(contentPadding = PaddingValues(horizontal = 14.dp    ),onClick = {
+
+                        navController.navigate("note") }, colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue), shape = RoundedCornerShape(10.dp    )) {
                         Text(text = "+ New", color = Black, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp ))
 
                     }

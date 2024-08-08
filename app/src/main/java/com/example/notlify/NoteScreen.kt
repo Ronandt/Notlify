@@ -66,11 +66,42 @@ fun NoteScreen(navController: NavController) {
                 .background(Black, shape = RoundedCornerShape(10.dp))
                 .shadow(4.dp)) {
                 repeat(5) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Default.Add, contentDescription =  "Add", tint = Color.White)
+                    when(it) {
+                        0 -> {
+                            IconButton(onClick = { /*TODO*/ }) {
 
+                                Icon(painterResource(id = R.drawable.baseline_font_download_24), contentDescription =  "Add", tint = Color.White)
+
+
+                            }
+                        }
+                        1-> {
+                            IconButton(onClick = { /*TODO*/ }) {
+
+                                Icon(painterResource(id = R.drawable.baseline_image_24), contentDescription =  "Add", tint = Color.White)
+
+
+                            }
+                        }
+                        2 -> {
+                            IconButton(onClick = { /*TODO*/ }) {
+
+                                Icon(painterResource(id = R.drawable.baseline_format_list_bulleted_24), contentDescription =  "Add", tint = Color.White)
+
+
+                            }
+                        }
+                        3 -> {
+                            IconButton(onClick = { /*TODO*/ }) {
+
+                                Icon(painterResource(id = R.drawable.baseline_format_list_bulleted_24), contentDescription =  "Add", tint = Color.White)
+
+
+                            }
+                        }
 
                     }
+
                 }
             }
         }
