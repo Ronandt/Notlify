@@ -33,7 +33,8 @@ data class Note(
     val title: String,
     val tags: String,
     val lastCreated: String,
-
+    var lastOpened: String? = null,
+    val image: String? ,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )
@@ -43,7 +44,7 @@ data class Note(
 data class NoteItem(
     val parentNoteId: Int,
     val parentNoteItem: Int? = null,
-    val image: String,
+
     val itemType: String,
     val description: String,
     val indentationCount: Int = 0,

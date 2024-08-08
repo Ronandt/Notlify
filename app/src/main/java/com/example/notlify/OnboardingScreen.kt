@@ -21,11 +21,14 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,7 +47,18 @@ import kotlinx.coroutines.launch
 fun OnboardingScreen(navController: NavController) {
     val pagerState = rememberPagerState(0)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
+    val database = remember {
+
+        AppDatabase.getDb(context = context)
+    }
+LaunchedEffect(Unit) {
+if(database.noteDao().selectAll().isEmpty()) {
+    database.noteDao().insertNote(Note("Getting Started" , tags = "Welcome", lastCreated = System.currentTimeMillis().toString(), image = "Default"))
+    database.noteDao().insertNote(Note("Tools" , tags = "Welcome", lastCreated = System.currentTimeMillis().toString(), image = "Default"))
+}
+}
         HorizontalPager(pageCount = 3, state = pagerState) {
             when(it) {
                 0 -> {

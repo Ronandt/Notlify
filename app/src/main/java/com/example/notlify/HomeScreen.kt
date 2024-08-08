@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,8 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -67,7 +70,10 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
     }
     val context = LocalContext.current
     val getDatabase = remember {AppDatabase.getDb(context)}
-
+    var getItems = remember {mutableStateListOf<Note>()}
+    LaunchedEffect(key1 = Unit ) {
+        getItems.addAll(getDatabase.noteDao().selectAll())
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -90,7 +96,7 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
                     }
                     Button(contentPadding = PaddingValues(horizontal = 14.dp    ),onClick = {
                         scope.launch {
-                           val returnedId =  getDatabase.noteDao().insertNote(Note("Empty Note", "Welcome", System.currentTimeMillis().toString()))
+                           val returnedId =  getDatabase.noteDao().insertNote(Note("Empty Note", "Welcome", System.currentTimeMillis().toString(), image = null))
                             navController.navigate("note/${returnedId}")
 
 
@@ -136,21 +142,41 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
                 when(it) {
                     0-> {
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp )) {
-                            items(3) {
+                            items(getItems.size) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(IntrinsicSize.Min),
+                                        .height(IntrinsicSize.Min).clickable {
+                                                                             navController.navigate("note/${getItems[it].id}")
+                                        },
                                     horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                    verticalAlignment = Alignment.CenterVertically
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                 ) {
-                                    Image(painter = painterResource(id = R.drawable.sample), contentDescription = "Sample", modifier = Modifier
-                                        .size(80.dp)
-                                        .clip(
-                                            RoundedCornerShape(10.dp)
-                                        ))
+                                    if(getItems[it].image == "Default") {
+                                        Image(painter = painterResource(id = R.drawable.sample), contentDescription = "Sample", modifier = Modifier
+                                            .size(80.dp)
+                                            .clip(
+                                                RoundedCornerShape(10.dp)
+                                            ))
+                                    } else {
+                                        if(getItems[it].image == null) {
+                                            Box( modifier = Modifier.background(Color.White,shape =   RoundedCornerShape(10.dp))
+                                                .size(80.dp)
+                                             )
+                                        } else {
+                                            Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "Sample", modifier = Modifier
+                                                .size(80.dp)
+                                                .clip(
+                                                    RoundedCornerShape(10.dp)
+                                                ))
+                                        }
+
+                                    }
+
+
                                     Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
-                                        Text(text = "Getting Started", color = Color.White)
+                                        Text(text = "${getItems[it].title}", color = Color.White)
                                         Text(text = "5 Aug 2024", color = DarkGray)
                                         Box(modifier = Modifier
                                             .background(
@@ -161,7 +187,7 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
                                                 width = 3.dp, color =
                                                 DarkLightPurple, shape = RoundedCornerShape(20.dp)
                                             )) {
-                                            Text(modifier = Modifier.padding(horizontal = 8.dp    ), fontSize = 12.sp   ,text = "Welcome", color = Color.White, fontWeight = FontWeight.SemiBold)
+                                            Text(modifier = Modifier.padding(horizontal = 8.dp    ), fontSize = 12.sp   ,text = "${getItems[it].tags}", color = Color.White, fontWeight = FontWeight.SemiBold)
                                         }
                                         Spacer(modifier = Modifier.height(2.dp))
                                         Divider(modifier = Modifier.fillMaxWidth(), color = DarkGray, thickness = 0.6.dp)

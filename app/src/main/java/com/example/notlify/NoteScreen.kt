@@ -19,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,7 +32,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import com.example.notlify.ui.theme.Black
 import com.example.notlify.ui.theme.DarkGray
 import com.example.notlify.ui.theme.DrawerGray
@@ -40,7 +43,19 @@ import com.example.notlify.ui.theme.LightGray
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteScreen(navController: NavController, id: Int?) {
-    var notTypedYet by remember { mutableStateOf(true )}
+
+    val context = LocalContext.current
+    val database = remember {
+        AppDatabase.getDb(context = context)
+    }
+    val initialNoteItemData = remember { mutableStateListOf<NoteItem>() }
+
+    LaunchedEffect(key1 = Unit ) {
+        id?.let { database.noteItemDao().selectNoteItems(it) }
+            ?.let { initialNoteItemData.addAll(it) }
+
+    }
+
     Scaffold(bottomBar = {
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +66,10 @@ fun NoteScreen(navController: NavController, id: Int?) {
                 repeat(5) {
                     when(it) {
                         0 -> {
-                            IconButton(onClick = { /*TODO*/ }) {
+                            IconButton(onClick = {
+
+
+                            }) {
 
                                 Icon(painterResource(id = R.drawable.baseline_font_download_24), contentDescription =  "Add", tint = Color.White)
 
@@ -142,7 +160,7 @@ fun NoteScreen(navController: NavController, id: Int?) {
             Column(modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)) {
-                if(notTypedYet) {
+                if(initialNoteItemData.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                            listOfItems.forEach {
