@@ -47,8 +47,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -146,8 +148,9 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(IntrinsicSize.Min).clickable {
-                                                                             navController.navigate("note/${getItems[it].id}")
+                                        .height(IntrinsicSize.Min)
+                                        .clickable {
+                                            navController.navigate("note/${getItems[it].id}")
                                         },
                                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                                     verticalAlignment = Alignment.CenterVertically,
@@ -161,7 +164,11 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
                                             ))
                                     } else {
                                         if(getItems[it].image == null) {
-                                            Box( modifier = Modifier.background(Color.White,shape =   RoundedCornerShape(10.dp))
+                                            Box( modifier = Modifier
+                                                .background(
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(10.dp)
+                                                )
                                                 .size(80.dp)
                                              )
                                         } else {
@@ -198,7 +205,15 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
                         }
 
                     }
-                    1-> {}
+                    1-> {
+                       Column(Modifier.fillMaxSize() , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center ) {
+                           Image(painter = painterResource(id = R.drawable.one  ), contentDescription = "Image", modifier = Modifier.size(200.dp)
+                           )
+                           Text(text = "There are no recents!\nStart to open all the notes now!", textAlign = TextAlign.Center, color = LightGray)
+
+                       }
+
+                    }
                     2-> {
 
                     }
