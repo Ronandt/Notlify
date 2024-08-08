@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 fun OnboardingScreen(navController: NavController) {
     val pagerState = rememberPagerState(0)
     val scope = rememberCoroutineScope()
-    AppColumn() {
+
         HorizontalPager(pageCount = 3, state = pagerState) {
             when(it) {
                 0 -> {
@@ -164,7 +164,7 @@ fun OnboardingScreen(navController: NavController) {
         }
 
 
-    }
+
 
 
 }

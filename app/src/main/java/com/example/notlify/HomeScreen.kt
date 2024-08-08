@@ -92,7 +92,7 @@ fun HomeScreen(navController: NavController, drawerState: DrawerState) {
             }
 
             Spacer(modifier = Modifier.height(30.dp ))
-            Text(text = "All Notes", fontSize = 32.sp, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(text = "${tabs.elementAt(state.targetPage)}", fontSize = 32.sp, color = Color.White, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(10.dp))
             androidx.compose.material.ScrollableTabRow(edgePadding = 0.dp ,modifier = Modifier
                 .padding(0.dp)

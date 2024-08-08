@@ -44,6 +44,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteScreen(navController: NavController) {
+Column(modifier = Modifier.fillMaxWidth()) {
+    Column() {
 
+    }
+}
 
 }

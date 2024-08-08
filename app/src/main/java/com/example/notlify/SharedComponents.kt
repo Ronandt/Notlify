@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AppColumn(modifier: Modifier = Modifier.padding(10.dp), content: @Composable () -> Unit  ) {
-    Column(modifier = modifier) {
+fun AppColumn(modifier: Modifier = Modifier, content: @Composable () -> Unit  ) {
+    Column(modifier = modifier.then(Modifier.padding(10.dp))) {
         content()
     }
 }
