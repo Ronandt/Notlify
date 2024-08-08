@@ -134,15 +134,12 @@ fun OnboardingScreen(navController: NavController) {
 
                         Text(text = "Import and share\nnotes quickly", fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                      androidx.compose.material3.Button(onClick = {
-                            scope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            }
+                            navController.navigate("home")
                         }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = LightBlue), shape = RoundedCornerShape(10.dp    ), modifier = Modifier
                          .padding(vertical = 50.dp)
                          .width(220.dp)) {
                             Text(text = "Get started", color = Color.White, fontWeight = FontWeight.SemiBold)
                         }
-
 
                         Row(modifier = Modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                             repeat(3) {
